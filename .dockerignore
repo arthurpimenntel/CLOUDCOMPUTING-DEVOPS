@@ -1,0 +1,7 @@
+.git
+.github
+README.md
+INTEGRANTES.md
+docker-compose.yml
+.gitignore
+*.pem

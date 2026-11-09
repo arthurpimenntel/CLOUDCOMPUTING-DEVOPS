@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projeto DevOps | CI/CD na Nuvem</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🚀 Projeto DevOps</h1>
+    <p class="sub">Pipeline CI/CD com Docker, GitHub Actions e AWS</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Como funciona</h2>
+      <ol class="etapas">
+        <li>📝 Commit e push no GitHub</li>
+        <li>🧪 GitHub Actions testa a aplicação</li>
+        <li>📦 A imagem Docker é construída e enviada ao Docker Hub</li>
+        <li>☁️ O servidor na AWS recebe a nova versão automaticamente</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>Tecnologias</h2>
+      <div class="tags">
+        <span>HTML</span><span>CSS</span><span>JavaScript</span>
+        <span>Docker</span><span>Nginx</span><span>GitHub Actions</span>
+        <span>AWS EC2</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Teste interativo</h2>
+      <button id="btn" onclick="mostrarMensagem()">Verificar pipeline</button>
+      <p id="mensagem"></p>
+      <p id="relogio"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Deploy automatizado com CI/CD ✅</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

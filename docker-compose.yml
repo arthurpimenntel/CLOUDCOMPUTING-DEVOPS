@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    container_name: meu-site
+    ports:
+      - "80:80"
+    restart: always

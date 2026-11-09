@@ -1,0 +1,64 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: 1 - Testar aplicacao
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v4
+
+      - name: Construir imagem de teste
+        run: docker build -t teste-site .
+
+      - name: Subir container e testar
+        run: |
+          docker run -d -p 8080:80 --name teste teste-site
+          sleep 5
+          curl --fail http://localhost:8080
+          curl --fail http://localhost:8080 | grep -q "Projeto DevOps"
+          echo "Teste OK"
+
+  build-and-push:
+    name: 2 - Construir e publicar imagem
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v4
+
+      - name: Login no Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Montar e enviar a imagem
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USER }}/meu-site:latest
+
+  deploy:
+    name: 3 - Deploy na AWS EC2
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Atualizar o servidor na EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USER }}/meu-site:latest
+            docker stop meu-site || true
+            docker rm meu-site || true
+            docker run -d --name meu-site -p 80:80 --restart always ${{ secrets.DOCKER_USER }}/meu-site:latest
+            docker image prune -f
