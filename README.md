@@ -32,8 +32,8 @@ Credenciais (usuário e token do Docker Hub, IP e chave SSH da EC2) ficam em **G
 Pré-requisito: Docker instalado.
 
 ```bash
-git clone https://github.com/SEU_USUARIO/meu-site-devops.git
-cd meu-site-devops
+git clone https://github.com/SEU_USUARIO/CLOUDCOMPUTING-DEVOPS.git
+cd CLOUDCOMPUTING-DEVOPS
 docker compose up --build
 ```
 

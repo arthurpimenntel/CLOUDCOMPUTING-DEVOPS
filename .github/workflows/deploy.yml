@@ -20,8 +20,8 @@ jobs:
         run: |
           docker run -d -p 8080:80 --name teste teste-site
           sleep 5
-          curl --fail http://localhost:8080
-          curl --fail http://localhost:8080 | grep -q "Projeto DevOps"
+          curl --fail -s http://localhost:8080 -o pagina.html
+          grep -q "Projeto DevOps" pagina.html
           echo "Teste OK"
 
   build-and-push:
@@ -39,7 +39,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Montar e enviar a imagem
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Atualizar o servidor na EC2
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
